@@ -291,7 +291,7 @@ jobs:
         run: |2-
 
               
-              response=$(curl -X POST -d "helmAppId=${{ env.HELM_APP_ID }}&helmValues=${{ env.RULES_ENV_VARS }}"  -H 'Authorization: ${{ env.SERVICE_ACC_ACCESS_TOKEN }}' -H 'x-organization-id: ${{ env.PIPELINE_ORGANIZATION_ID }}' -H 'x-project-id: ${{ env.PIPELINE_PROJECT_ID }}' -H 'x-environment-id: ${{ env.PIPELINE_ENVIRONMENT_ID }}' -H 'x-application-id: ${{ env.PIPELINE_APPLICATION_ID }}' -H 'x-trace-id: ${{ env.PIPELINE_TRACE_ID }}' -H 'x-auth-by: sa' -H 'Content-Type: application/x-www-form-urlencoded'  "https://e2b2-175-157-47-213.ngrok-free.app/applications/trigger-helm-pipelines")
+              response=$(curl -X POST -d "helmAppId=${{ env.HELM_APP_ID }}&helmValues=${{ env.RULES_ENV_VARS }}"  -H 'Authorization: ${{ env.SERVICE_ACC_ACCESS_TOKEN }}' -H 'x-organization-id: ${{ env.PIPELINE_ORGANIZATION_ID }}' -H 'x-project-id: ${{ env.PIPELINE_PROJECT_ID }}' -H 'x-environment-id: ${{ env.PIPELINE_ENVIRONMENT_ID }}' -H 'x-application-id: ${{ env.PIPELINE_APPLICATION_ID }}' -H 'x-trace-id: ${{ env.PIPELINE_TRACE_ID }}' -H 'x-auth-by: sa' -H 'Content-Type: application/x-www-form-urlencoded'  "https://e71a-2402-4000-2200-a303-3118-7025-d4e1-e6e9.ngrok-free.app/applications/trigger-helm-pipelines")
 
               if echo "$response" | grep -q '"success":true'; then
                 echo "SUCCESS :: $response"
