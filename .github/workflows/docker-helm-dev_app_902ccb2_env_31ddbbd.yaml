@@ -310,7 +310,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - code-scan
-      - build-and-push
+      # - build-and-push
       - trigger-helm-pipelines
       - deploy
     if: ${{ !(failure() || cancelled()) }}
