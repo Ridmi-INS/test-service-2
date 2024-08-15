@@ -353,9 +353,7 @@ jobs:
     name: Deploy
     permissions: write-all
     runs-on: ubuntu-latest
-    needs:
-      - trigger-helm-pipelines
-      - _status_testing
+    needs: trigger-helm-pipelines
     if: >-
       needs.build-and-push.outputs.stepsCanProceed == 'true' &&
       github.event.client_payload.releaseData == null
