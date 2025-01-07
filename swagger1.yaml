@@ -1,0 +1,130 @@
+openapi: 3.0.0
+info:
+  title: Combined API Specification
+  version: 1.0.0
+paths:
+  /health:
+    get:
+      summary: Health Check
+      responses:
+        '200':
+          description: Health check successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseDto'
+  /create:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pipelineType:
+                  type: string
+                  description: Type of pipeline
+                appId:
+                  type: string
+                  description: Application ID
+                targetEnvId:
+                  type: string
+                  description: Target environment ID
+                credentialId:
+                  type: string
+                  description: Credential ID
+                repositoryName:
+                  type: string
+                  description: Repository name
+                branch:
+                  type: string
+                  description: Branch name
+                triggers:
+                  type: array
+                  items:
+                    type: object
+                    description: Array of triggers
+                  description: Triggers for the pipeline
+                steps:
+                  type: array
+                  items:
+                    type: string
+                    description: Array of steps
+                  description: Steps in the pipeline
+                workflowName:
+                  type: string
+                  description: Workflow name
+                fileName:
+                  type: string
+                  description: File name
+              required:
+              - pipelineType
+              - appId
+              - targetEnvId
+              - credentialId
+              - repositoryName
+              - branch
+              - triggers
+              - steps
+              - workflowName
+              - fileName
+      responses:
+        '200':
+          description: Successful pipeline creation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Indicates success or failure
+                  data:
+                    type: object
+                    description: Data related to the created pipeline
+                  message:
+                    type: string
+                    description: Success or error message
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Indicates success or failure
+                  data:
+                    type: object
+                    description: Data related to the error
+                  message:
+                    type: string
+                    description: Error message
+components:
+  schemas:
+    ApiResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          readOnly: true
+        data:
+          type: object
+          nullable: true
+          $ref: '#/components/schemas/HealthCheckDetail'
+        message:
+          type: string
+          nullable: true
+      required:
+      - success
+    HealthCheckDetail:
+      type: object
+      properties:
+        message:
+          type: string
+        meta:
+          type: object
+      required:
+      - message
