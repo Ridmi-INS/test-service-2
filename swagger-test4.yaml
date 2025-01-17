@@ -13,17 +13,131 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponseDto'
+  /create:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pipelineType:
+                  type: string
+                  description: Type of pipeline
+                appId:
+                  type: string
+                  description: Application ID
+                targetEnvId:
+                  type: string
+                  description: Target environment ID
+                credentialId:
+                  type: string
+                  description: Credential ID
+                repositoryName:
+                  type: string
+                  description: Repository name
+                branch:
+                  type: string
+                  description: Branch name
+                triggers:
+                  type: array
+                  description: List of triggers
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        description: Trigger type
+                      config:
+                        type: object
+                        description: Trigger configuration
+                    required:
+                    - type
+                    - config
+                steps:
+                  type: array
+                  description: List of steps
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: Step name
+                      type:
+                        type: string
+                        description: Step type
+                      config:
+                        type: object
+                        description: Step configuration
+                    required:
+                    - name
+                    - type
+                    - config
+                workflowName:
+                  type: string
+                  description: Workflow name
+                fileName:
+                  type: string
+                  description: File name
+              required:
+              - pipelineType
+              - appId
+              - targetEnvId
+              - credentialId
+              - repositoryName
+              - branch
+              - triggers
+              - steps
+              - workflowName
+              - fileName
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Indicates success or failure
+                  data:
+                    type: object
+                    description: Pipeline data
+                  message:
+                    type: string
+                    description: Success or error message
+                required:
+                - success
+                - message
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Indicates success or failure
+                  data:
+                    type: object
+                    description: Error data
+                  message:
+                    type: string
+                    description: Error message
+                required:
+                - success
+                - message
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ApiResponseDto:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          $ref: '#/components/schemas/HealthCheckDetail'
-        message:
-          type: string
     HealthCheckDetail:
       type: object
       properties:
@@ -31,3 +145,28 @@ components:
           type: string
         meta:
           type: object
+    ApiResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          default: true
+        data:
+          type: object
+          $ref: '#/components/schemas/HealthCheckDetail'
+          nullable: true
+        message:
+          type: string
+          nullable: true
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+        message:
+          type: string
+      required:
+      - success
+      - message
