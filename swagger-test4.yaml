@@ -5,7 +5,7 @@ info:
 paths:
   /health:
     get:
-      summary: Health Check
+      summary: Check health
       responses:
         '200':
           description: Health check successful
@@ -13,6 +13,134 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponseDto'
+  /create:
+    post:
+      summary: Create a new workflow
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pipelineType:
+                  type: string
+                  description: Type of pipeline
+                appId:
+                  type: string
+                  description: Application ID
+                targetEnvId:
+                  type: string
+                  description: Target environment ID
+                credentialId:
+                  type: string
+                  description: Credential ID
+                repositoryName:
+                  type: string
+                  description: Repository name
+                branch:
+                  type: string
+                  description: Branch name
+                triggers:
+                  type: array
+                  items:
+                    type: object
+                    description: Trigger configuration
+                  description: List of triggers
+                steps:
+                  type: array
+                  items:
+                    type: string
+                    description: Step name
+                  description: List of steps
+                workflowName:
+                  type: string
+                  description: Workflow name
+                fileName:
+                  type: string
+                  description: File name
+              required:
+              - pipelineType
+              - appId
+              - targetEnvId
+              - credentialId
+              - repositoryName
+              - branch
+              - triggers
+              - steps
+              - workflowName
+              - fileName
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Indicates if the operation was successful
+                  data:
+                    type: object
+                    description: Workflow data
+                  message:
+                    type: string
+                    description: Success message
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Indicates if the operation was successful
+                  data:
+                    type: object
+                    description: Error data
+                  message:
+                    type: string
+                    description: Error message
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                  message:
+                    type: string
+      parameters:
+      - in: header
+        name: x-organization-id
+        schema:
+          type: string
+          description: Organization ID
+        required: true
+      - in: header
+        name: x-project-id
+        schema:
+          type: string
+          description: Project ID
+        required: true
+      - in: header
+        name: x-cluster-id
+        schema:
+          type: string
+          description: Cluster ID
+        required: true
+      - in: header
+        name: x-trace-id
+        schema:
+          type: string
+          description: Trace ID
+        required: true
 components:
   schemas:
     ApiResponseDto:
