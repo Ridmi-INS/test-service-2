@@ -18,9 +18,34 @@ paths:
                   type: string
                 password:
                   type: string
+                loginType:
+                  type: string
       responses:
         '200':
           description: Successful registration
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+  /login:
+    post:
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                loginType:
+                  type: string
+      responses:
+        '200':
+          description: Successful login
         '404':
           description: Not found
         '500':
