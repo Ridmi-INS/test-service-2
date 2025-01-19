@@ -8,13 +8,120 @@ paths:
       summary: Health Check
       responses:
         '200':
-          description: Health check successful
+          description: Success
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponseDto'
+  /create:
+    post:
+      summary: Create Pipeline
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pipelineType:
+                  type: string
+                appId:
+                  type: string
+                targetEnvId:
+                  type: string
+                credentialId:
+                  type: string
+                repositoryName:
+                  type: string
+                branch:
+                  type: string
+                triggers:
+                  type: array
+                  items:
+                    type: object
+                steps:
+                  type: array
+                  items:
+                    type: string
+                workflowName:
+                  type: string
+                fileName:
+                  type: string
+              required:
+              - pipelineType
+              - appId
+              - targetEnvId
+              - credentialId
+              - repositoryName
+              - branch
+              - triggers
+              - steps
+              - workflowName
+              - fileName
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                  message:
+                    type: string
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                  message:
+                    type: string
+      parameters:
+      - name: x-organization-id
+        in: header
+        schema:
+          type: string
+        required: true
+      - name: x-project-id
+        in: header
+        schema:
+          type: string
+        required: true
+      - name: x-cluster-id
+        in: header
+        schema:
+          type: string
+        required: true
+      - name: x-trace-id
+        in: header
+        schema:
+          type: string
+        required: true
 components:
   schemas:
+    ApiResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          nullable: true
+          $ref: '#/components/schemas/HealthCheckDetail'
+        message:
+          type: string
+          nullable: true
+      required:
+      - success
     HealthCheckDetail:
       type: object
       properties:
@@ -22,12 +129,5 @@ components:
           type: string
         meta:
           type: object
-    ApiResponseDto:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          $ref: '#/components/schemas/HealthCheckDetail'
-        message:
-          type: string
+      required:
+      - message
