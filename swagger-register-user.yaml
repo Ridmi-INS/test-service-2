@@ -3,7 +3,6 @@ info:
   title: User Registration API
   version: 1.0.0
   description: API for user registration
-
 paths:
   /register:
     post:
@@ -26,8 +25,5 @@ paths:
           description: Not found
         '500':
           description: Internal server error
-
-components: {}
-
 servers:
-  - url: https://api.example.com
+  - url: https://api.example.com/v1
