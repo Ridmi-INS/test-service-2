@@ -26,23 +26,8 @@ paths:
           description: Not found
         '500':
           description: Internal server error
-  /user/{id}:
-    get:
-      summary: Get user by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Successful operation
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
+
+components: {}
 
 servers:
-  - url: https://api.example.com/v1
+  - url: https://api.example.com
