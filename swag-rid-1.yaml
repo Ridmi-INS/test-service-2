@@ -8,7 +8,29 @@ paths:
       summary: Check Health
       responses:
         '200':
-          description: Health check successful
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseDto'
+  /create:
+    post:
+      summary: Create Pipeline
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PushWorkflowDto'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseDto'
+        '503':
+          description: Service unavailable
           content:
             application/json:
               schema:
@@ -22,9 +44,10 @@ components:
           type: boolean
         data:
           type: object
-          $ref: '#/components/schemas/HealthCheckDetail'
+          nullable: true
         message:
           type: string
+          nullable: true
     HealthCheckDetail:
       type: object
       properties:
@@ -32,3 +55,46 @@ components:
           type: string
         meta:
           type: object
+      required:
+      - message
+    PushWorkflowDto:
+      type: object
+      properties:
+        pipelineType:
+          type: string
+        appId:
+          type: string
+        targetEnvId:
+          type: string
+        credentialId:
+          type: string
+        repositoryName:
+          type: string
+        branch:
+          type: string
+        triggers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Trigger'
+        steps:
+          type: array
+          items:
+            type: string
+        workflowName:
+          type: string
+        fileName:
+          type: string
+      required:
+      - pipelineType
+      - appId
+      - targetEnvId
+      - credentialId
+      - repositoryName
+      - branch
+      - triggers
+      - steps
+      - workflowName
+      - fileName
+    Trigger:
+      type: object
+      properties: {}
