@@ -2,7 +2,8 @@ openapi: 3.0.0
 info:
   title: User Registration API
   version: 1.0.0
-  description: API to register a user
+  description: API for user registration
+
 paths:
   /register:
     post:
@@ -20,10 +21,28 @@ paths:
                   type: string
       responses:
         '200':
-          description: User successfully registered
+          description: Successful registration
         '404':
           description: Not found
         '500':
           description: Internal server error
+  /user/{id}:
+    get:
+      summary: Get user by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+
 servers:
   - url: https://api.example.com/v1
