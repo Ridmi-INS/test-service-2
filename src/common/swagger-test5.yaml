@@ -5,7 +5,7 @@ info:
 paths:
   /health:
     get:
-      summary: check health
+      summary: check health updated
       responses:
         '200':
           description: Success
