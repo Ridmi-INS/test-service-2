@@ -18,6 +18,8 @@ paths:
                   type: string
                 password:
                   type: string
+                loginType:
+                  type: string
       responses:
         '200':
           description: Successful registration
@@ -25,32 +27,9 @@ paths:
           description: Not found
         '500':
           description: Internal server error
-  /user/{id}:
-    get:
-      summary: Get user by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Successful operation
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-    put:
-      summary: Update user by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
+  /login:
+    post:
+      summary: User login
       requestBody:
         required: true
         content:
@@ -62,9 +41,11 @@ paths:
                   type: string
                 password:
                   type: string
+                loginType:
+                  type: string
       responses:
         '200':
-          description: Successful operation
+          description: Successful login
         '404':
           description: Not found
         '500':
