@@ -13,6 +13,109 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponseDto'
+  /create:
+    post:
+      parameters:
+      - in: header
+        name: x-organization-id
+        schema:
+          type: string
+        required: true
+      - in: header
+        name: x-project-id
+        schema:
+          type: string
+        required: true
+      - in: header
+        name: x-cluster-id
+        schema:
+          type: string
+        required: true
+      - in: header
+        name: x-trace-id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pipelineType:
+                  type: string
+                  description: Type of pipeline
+                appId:
+                  type: string
+                  description: Application ID
+                targetEnvId:
+                  type: string
+                  description: Target environment ID
+                credentialId:
+                  type: string
+                  description: Credential ID
+                repositoryName:
+                  type: string
+                  description: Repository name
+                branch:
+                  type: string
+                  description: Branch name
+                triggers:
+                  type: array
+                  items:
+                    type: object
+                    description: Pipeline triggers
+                  description: Array of triggers
+                steps:
+                  type: array
+                  items:
+                    type: string
+                    description: Pipeline steps
+                  description: Array of steps
+                workflowName:
+                  type: string
+                  description: Workflow name
+                fileName:
+                  type: string
+                  description: File name
+              required:
+              - pipelineType
+              - appId
+              - targetEnvId
+              - credentialId
+              - repositoryName
+              - branch
+              - triggers
+              - steps
+              - workflowName
+              - fileName
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                  message:
+                    type: string
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                  message:
+                    type: string
 components:
   schemas:
     ApiResponseDto:
@@ -21,6 +124,7 @@ components:
         success:
           type: boolean
         data:
+          type: object
           $ref: '#/components/schemas/HealthCheckDetail'
         message:
           type: string
@@ -31,3 +135,4 @@ components:
           type: string
         meta:
           type: object
+          properties: {}
