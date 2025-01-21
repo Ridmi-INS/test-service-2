@@ -1,33 +1,34 @@
 openapi: 3.0.0
 info:
-  title: User Registration API
+  title: Combined API Specification
   version: 1.0.0
-  description: API for user registration
-
 paths:
-  /register:
-    post:
-      summary: Register a new user
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                username:
-                  type: string
-                password:
-                  type: string
+  /health:
+    get:
+      summary: Check health
       responses:
         '200':
-          description: User successfully registered
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-components: {}
-
-servers:
-  - url: https://api.example.com/v1
+          description: Health check successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseDto'
+components:
+  schemas:
+    HealthCheckDetail:
+      type: object
+      properties:
+        message:
+          type: string
+        meta:
+          type: object
+    ApiResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          default: true
+        data:
+          $ref: '#/components/schemas/HealthCheckDetail'
+        message:
+          type: string
