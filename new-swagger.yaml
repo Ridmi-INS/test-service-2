@@ -2,34 +2,110 @@ openapi: 3.0.0
 info:
   title: Combined API Specification
   version: 1.0.0
-  description: This is a combined API specification including health check and other endpoints.
 paths:
   /health:
     get:
-      summary: Health check
+      summary: Health Check
       responses:
         '200':
-          description: Health check successful
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponseDto'
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
+  /create:
+    post:
+      parameters:
+      - in: header
+        name: x-organization-id
+        schema:
+          type: string
+        required: true
+      - in: header
+        name: x-project-id
+        schema:
+          type: string
+        required: true
+      - in: header
+        name: x-cluster-id
+        schema:
+          type: string
+        required: true
+      - in: header
+        name: x-trace-id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pipelineType:
+                  type: string
+                appId:
+                  type: string
+                targetEnvId:
+                  type: string
+                credentialId:
+                  type: string
+                repositoryName:
+                  type: string
+                branch:
+                  type: string
+                triggers:
+                  type: array
+                  items:
+                    type: object
+                steps:
+                  type: array
+                  items:
+                    type: string
+                workflowName:
+                  type: string
+                fileName:
+                  type: string
+              required:
+              - pipelineType
+              - appId
+              - targetEnvId
+              - credentialId
+              - repositoryName
+              - branch
+              - triggers
+              - steps
+              - workflowName
+              - fileName
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                  message:
+                    type: string
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                  message:
+                    type: string
 components:
   schemas:
-    ApiResponseDto:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: object
-          $ref: '#/components/schemas/HealthCheckDetail'
-        message:
-          type: string
     HealthCheckDetail:
       type: object
       properties:
@@ -38,5 +114,12 @@ components:
         meta:
           type: object
           properties: {}
-servers:
-  - url: https://api.example.com/v1
+    ApiResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/HealthCheckDetail'
+        message:
+          type: string
