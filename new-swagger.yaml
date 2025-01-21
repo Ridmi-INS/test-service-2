@@ -1,0 +1,35 @@
+openapi: 3.0.0
+info:
+  title: Combined API Specification
+  version: 1.0.0
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: Health check successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseDto'
+components:
+  schemas:
+    ApiResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          $ref: '#/components/schemas/HealthCheckDetail'
+        message:
+          type: string
+    HealthCheckDetail:
+      type: object
+      properties:
+        message:
+          type: string
+        meta:
+          type: object
+          properties: {}
