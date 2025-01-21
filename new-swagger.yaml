@@ -2,6 +2,7 @@ openapi: 3.0.0
 info:
   title: Combined API Specification
   version: 1.0.0
+  description: This is a combined API specification including health check and other endpoints.
 paths:
   /health:
     get:
@@ -13,6 +14,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponseDto'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
 components:
   schemas:
     ApiResponseDto:
@@ -33,3 +38,5 @@ components:
         meta:
           type: object
           properties: {}
+servers:
+  - url: https://api.example.com/v1
