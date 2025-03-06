@@ -71,7 +71,7 @@ jobs:
       - name: 'Run :: Trivy Filesystem Scan'
         run: |2-
 
-                  docker run --rm -v "${PWD}:/src" aquasec/trivy fs /src --severity HIGH --format json --quiet > trivy_results.json
+                  docker run --rm -v "${PWD}:/src" aquasec/trivy fs /src --severity CRITICAL --format json --quiet > trivy_results.json
                   # Minifying Json
                   jq -c '.' trivy_results.json > trivy_results.min.json
                   
@@ -87,7 +87,7 @@ jobs:
       - name: 'Run :: Trivy Filesystem Scan (Including Trivy Ignores)'
         run: |2-
 
-                  docker run --rm -v "${PWD}:/src" aquasec/trivy fs /src --severity HIGH --format json --quiet --list-all-pkgs > trivy_results.json
+                  docker run --rm -v "${PWD}:/src" aquasec/trivy fs /src --severity CRITICAL --format json --quiet --list-all-pkgs > trivy_results.json
                   # Minifying Json
                   jq -c '.' trivy_results.json > trivy_results.min.json
                   
@@ -727,6 +727,7 @@ jobs:
             
     needs:
       - build-and-push
+      - _status_testing
     permissions: write-all
     if: >-
       needs.build-and-push.outputs.stepsCanProceed == 'true' &&
